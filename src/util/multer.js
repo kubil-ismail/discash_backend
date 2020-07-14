@@ -4,7 +4,12 @@ const storage = multer.diskStorage({
     cb(null, 'public/assets/image') // uploaded image folder
   },
   filename: function (request, file, cb) {
-    cb(null, 'IMG' + new Date().getTime().toString().concat('_').concat(file.originalname))
+    // remove all space
+    let name = file.originalname.replace(/ /g, '')
+    // limit maximum name length
+    if (name.length > 20) name = name.slice(-20)
+    //  uploaded image name  IMG(new Date)_(filtered original name)
+    cb(null, 'IMG' + new Date().getTime().toString().concat('_').concat(name))
   }
 })
 
