@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     // remove all space
     let name = file.originalname.replace(/ /g, '')
     // limit maximum name length
-    if (name.length > 20) name = name.slice(-20)
+    if (name.length > 15) name = name.slice(-15)
     //  uploaded image name  IMG(new Date)_(filtered original name)
     cb(null, 'IMG' + new Date().getTime().toString().concat('_').concat(name))
   }
