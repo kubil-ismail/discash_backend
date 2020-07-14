@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const database = require("./src/util/database");
+const resData = require("./src/helper/response");
 // Setting up bodyParser to use json and set it to req.body
 app.use(bodyParser.json());
 app.use(
@@ -15,7 +16,7 @@ app.use(
 
 // database.query("SELECT * FROM users", (data, error) => console.log(error));
 
-const auth = require("./src/routes/api/authRoutes");
+const auth = require("./src/route/auth.routes");
 
 app.use("/auth", auth);
 // Error Route
