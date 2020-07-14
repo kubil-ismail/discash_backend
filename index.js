@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { APP_PORT, APP_URL } = process.env
+const { APP_PORT, APP_URL, APP_DEBUG } = process.env
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -7,28 +7,32 @@ const bodyParser = require('body-parser')
 
 // Import Routes
 const home = require('./src/route/index')
+const auth = require('./src/route/api/auth.route')
 
-// Allowed All
-app.use(cors())
+// DEBUG MODE CHECK
+if (APP_DEBUG) {
+  // Allowed All
+  app.use(cors())
+} else {
+  // Allowed Url Origins
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5000',
+    'http://127.0.0.1:5500'
+  ]
 
-// Allowed Url Origins
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5000',
-  'http://127.0.0.1:5500'
-]
-
-// Allowed spesific
-app.use(cors({
-  origin: function (origin, callback) {
-    // (like mobile apps or curl requests)
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
+  // Allowed spesific
+  app.use(cors({
+    origin: function (origin, callback) {
+      // (like mobile apps or curl requests)
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
     }
-  }
-}))
+  }))
+}
 
 // Setting up bodyParser to use json and set it to req.body
 app.use(bodyParser.json())
@@ -38,6 +42,7 @@ app.use(bodyParser.urlencoded({
 
 // App Routes
 app.use('/', home)
+app.use('/auth', auth)
 
 // Run Server
 app.listen(APP_PORT || 8000, () => {
