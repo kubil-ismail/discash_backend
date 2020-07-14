@@ -29,5 +29,8 @@
     "node-input-validator": "^4.2.1",
     "nodemailer": "^6.4.10",
     "uniqid": "^5.2.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
   }
 }
