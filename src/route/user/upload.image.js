@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const userController = require('../../controller/user/upload.image')
-const { uploadImage } = userController
+const { uploadImage, getUserDetail } = userController
 
-router.post('/', uploadImage)
+router
+	.get('/', getUserDetail)
+	.post('/', uploadImage)
 
 module.exports = router

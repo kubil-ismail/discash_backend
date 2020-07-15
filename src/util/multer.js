@@ -19,7 +19,7 @@ const fileFilter = (request, file, cb, error) => {
   if (checkImage === 'image/jpg' || checkImage === 'image/jpeg' || checkImage === 'image/png') {
     cb(null, true)
   } else {
-    cb(null, false)
+    cb(new Error('Only image jpeg/jpg/png are allowed'), false)
   }
 }
 

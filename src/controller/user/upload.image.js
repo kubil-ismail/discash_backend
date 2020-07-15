@@ -1,3 +1,4 @@
+const modalUser = require('../../model/user/upload.image')
 const upload = require('../../util/multer')
 const multer = require('multer')
 const photo = upload.single('image')
@@ -26,5 +27,12 @@ module.exports = {
         response.status(201).send(data)
       }
     })
+  },
+  getUserDetail: async (request, response) => {
+    const users = await modalUser.getAllUser()
+    const data = {
+      msg: 'List user detail',
+      data: users || []
+    }
   }
 }
