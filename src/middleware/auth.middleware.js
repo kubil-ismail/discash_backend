@@ -49,7 +49,31 @@ const pinMiddleware = (req, res, next) => {
   })
 }
 
+const forgotMiddleware = (req, res, next) => {
+  // Validator rule
+  const valid = new Validator(req.body, {
+    email: 'required|email'
+  })
+
+  // Error message
+  let error = ''
+
+  valid.check().then((matched) => {
+    for (const prop in valid.errors) {
+      error = valid.errors[prop].message
+    }
+    if (!matched) {
+      res.status(422).send(response({
+        msg: error
+      }))
+    } else {
+      next()
+    }
+  })
+}
+
 module.exports = {
   _activate: activateMiddleware,
-  _pin: pinMiddleware
+  _pin: pinMiddleware,
+  _forgot: forgotMiddleware
 }

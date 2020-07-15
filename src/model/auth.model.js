@@ -1,6 +1,7 @@
 const db = require('../util/database')
 const table = 'users' // Main Table
 const table2 = 'user_activates' // user_activates
+const table3 = 'user_forgotes' // user_forgotes
 
 module.exports = {
   // Activate Account
@@ -37,6 +38,17 @@ module.exports = {
   // Create new activate account key
   createActivator: (data) => {
     const query = `INSERT INTO ${table2} SET ?`
+
+    return new Promise((resolve, reject) => {
+      db.query(query, data, (err, res) => {
+        err ? reject(Error(err)) : resolve(res)
+      })
+    })
+  },
+
+  // Create new forgot request
+  createForgot: (data) => {
+    const query = `INSERT INTO ${table3} SET ?`
 
     return new Promise((resolve, reject) => {
       db.query(query, data, (err, res) => {
