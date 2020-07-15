@@ -1,5 +1,6 @@
 const db = require('../../util/DB')
 const table = "user_details"
+const table2 = "users"
 
 module.exports = {
 	getProfile: (data) => {
@@ -15,5 +16,13 @@ module.exports = {
 	    return new Promise((resolve, reject) => {
 	      db.query(query, (err, res) => err ? reject(Error(err)) : resolve(res))
 	    })
-  },
+  	},
+  	updateUsers: (data) => {
+  		// set status to false
+	    const query = `UPDATE ${table2} SET status = 0 WHERE id = '${data.id}'`
+
+	    return new Promise((resolve, reject) => {
+	      db.query(query, (err, res) => err ? reject(Error(err)) : resolve(res.affectedRows))
+	    })
+  	}
 }
