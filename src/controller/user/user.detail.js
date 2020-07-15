@@ -3,7 +3,7 @@ const moment = require('moment')
 
 module.exports = {
   getProfile: async (req, res) => {
-    const { id } = req.query
+    const { id } = req.params
     console.log(id)
     const result = await profileModel.getProfile({ id: parseInt(id)})
 
