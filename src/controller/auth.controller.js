@@ -30,5 +30,26 @@ module.exports = {
         msg: 'Something wrong, Try again'
       }))
     }
+  },
+
+  // Check pin user
+  pin: async (req, res) => {
+    try {
+      const { userId, pin } = req.body
+      const check = await auth.findPin({ userId: userId, pin: pin })
+      if (check.length === 0) {
+        res.status(400).send(response({
+          msg: 'Invalid Pin'
+        }))
+      } else {
+        res.status(200).send(response({
+          msg: 'Pin true'
+        }))
+      }
+    } catch (error) {
+      res.status(400).send(response({
+        msg: 'Something wrong, Try again'
+      }))
+    }
   }
 }

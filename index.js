@@ -4,6 +4,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const response = require('./src/helper/response')
 
 // Import Routes
 const home = require('./src/route/index')
@@ -43,6 +44,13 @@ app.use(bodyParser.urlencoded({
 // App Routes
 app.use('/', home)
 app.use('/auth', auth)
+
+// Error Route
+app.get('*', (req, res) => {
+  res.status(404).send(response({
+    msg: 'Page not found'
+  }))
+})
 
 // Run Server
 app.listen(APP_PORT || 8000, () => {

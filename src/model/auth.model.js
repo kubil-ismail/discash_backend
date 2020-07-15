@@ -23,6 +23,17 @@ module.exports = {
     })
   },
 
+  // Find pin from user table
+  findPin: (data) => {
+    const query = `SELECT pin FROM ${table} WHERE pin = ${data.pin} AND id = ${data.userId}`
+
+    return new Promise((resolve, reject) => {
+      db.query(query, (err, res) => {
+        err ? reject(Error(err)) : resolve(res)
+      })
+    })
+  },
+
   // Create new activate account key
   createActivator: (data) => {
     const query = `INSERT INTO ${table2} SET ?`
