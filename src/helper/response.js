@@ -1,8 +1,8 @@
-module.exports = (status = false, message, data = {}, options = {}) => {
+module.exports = (response) => {
   return {
-    status: status,
-    message: message,
-    data: data,
-    options: options,
-  };
-};
+    status: response.status || false,
+    message: response.msg || null,
+    result: response.data || {},
+    options: response.options || {}
+  }
+}

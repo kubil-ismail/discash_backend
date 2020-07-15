@@ -36,7 +36,12 @@ module.exports = {
     });
   },
 
-  // updateUser:(data)=>{
-  //   const query=`UPDATE users SET `
-  // }
+  updatePassword: (data) => {
+    const query = `UPDATE ${table} SET email=? WHERE id = ?, ['', password] `;
+    return new Promise((resolve, reject) => {
+      db.query(query, data, (err, res) => {
+        err ? reject(Error(err)) : resolve(res);
+      });
+    });
+  },
 };

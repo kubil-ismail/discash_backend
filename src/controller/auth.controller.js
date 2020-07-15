@@ -7,96 +7,187 @@ const jwt = require("jsonwebtoken");
 const response = require("../helper/response");
 
 module.exports = {
-  loginAuth: (req, res) => {
+  loginAuth: async (req, res) => {
     const { email, password, pin_id } = req.body;
-    const checkLogin = authModel.findAccount({ email: email });
+    const checkLogin = await authModel.findAccount({ email: email });
+    console.log(email, password, pin_id);
 
-    // Check email
-    checkLogin
-      .then((_result) => {
-        console.log(_result);
-        // Check account status
-        if (!_result.status) {
-          res
-            .status(400)
-            .send(response(false, "Please activate your account !"));
-        } else {
-          // Check Password
-          const checkPassword = bcrypt.compareSync(password, _result.password);
-          //const checkPassword = password === _result.password;
+    if (!email || !password || !pin_id) {
+      res.status(400).send(
+        response({
+          msg: "Please fill all form",
+        })
+      );
+    }
 
-          if (checkPassword) {
-            // Create Api Key
-            jwt.sign({ _result }, APP_KEY, (err, token) => {
-              if (!err) {
-                res.status(200).send(
-                  response(true, "Login successful", {
-                    apiKey: token,
-                    userId: _result.id,
-                    rolle: _result.rolle_id,
-                  })
-                );
-              } else {
-                res
-                  .status(400)
-                  .send(
-                    response(
-                      false,
-                      "Unable to sign in at this time, try for a few moments"
-                    )
-                  );
-              }
-            });
-          } else {
-            res.status(400).send(response(false, "Password do not match"));
-          }
-        }
-      })
-      .catch((_) =>
+    try {
+      if (!checkLogin.status) {
         res
           .status(400)
-          .send(res.status(400).send(response(false, "Email not registered")))
-      );
-  },
-  registerAuth: (req, res) => {
-    const { email, password, pin_id } = req.body;
-    const checkPin = pin_id ? bcrypt.compareSync(pin_id, APP_PIN) : null;
-    const checkEmail = authModel.findEmail({ email: email });
-    const uniqid = Math.floor(1000 + Math.random() * 9000);
+          .send(response({ msg: "Please activate your account !" }));
+      } else {
+        // Check Password
+        const checkPassword = bcrypt.compareSync(password, checkLogin.password);
 
-    // Check Email if exist
-    checkEmail.then((_result) => {
-      if (!_result) {
+        if (checkPassword) {
+          // Create Api Key
+          jwt.sign({ checkLogin }, APP_KEY, (err, token) => {
+            if (!err) {
+              res.status(200).send(
+                response({
+                  status: true,
+                  msg: "Login succesful",
+                  data: {
+                    apiKey: token,
+                    userId: checkLogin.id,
+                    rolle: checkLogin.rolle_id,
+                  },
+                })
+              );
+            } else {
+              res.status(400).send(
+                response({
+                  msg: "Unable to sign in at this time, try for a few moments",
+                })
+              );
+            }
+          });
+        } else {
+          res.status(400).send(response({ msg: "Password do not match" }));
+        }
+      }
+    } catch (_) {
+      res.status(400).send(
+        response({
+          msg: "Email not registered",
+        })
+      );
+    }
+  },
+
+  registerAuth: async (req, res) => {
+    const { email, password, pin_id } = req.body;
+    const checkEmail = await authModel.findEmail({ email: email });
+    try {
+      console.log("ini checkemail", checkEmail);
+
+      if (checkEmail === 0) {
         const data = {
           email: email,
           password: bcrypt.hashSync(password, salt),
-          // role_id: checkPin ? 2 : 1,
           pin_id: pin_id,
         };
         console.log("password register: ", password);
 
-        const createUser = authModel.createUser(data);
-        createUser
-          .then((_result) => {
-            // console.log("result register=>", _result);
-
-            res.status(200).send(
-              response(true, "Registration successful", {
-                userId: _result.insertId,
+        const createUser = await authModel.createUser(data);
+        // console.log(createUser);
+        // createUser.then((_result) => console.log("_result", _result));
+        try {
+          res.status(200).send(
+            response({
+              status: true,
+              msg: "Register succesful",
+              data: {
+                userId: createUser.insertId,
                 email: email,
-              })
-            );
-          })
-          .catch((_) => {
-            res.status(400).send(response(false, "Registration successful"));
-          })
+              },
+            })
+          );
+        } catch (error) {
+          res.status();
+        }
+        // .then((checkEmail) => {
+        //   res.status(200).send(
+        //     response({
+        //       status: true,
+        //       msg: "Registration successful",
+        //       data: {
+        //         userId: checkEmail.insertId,
+        //         email: email,
+        //       },
+        //     })
+        //   );
+        // })
+        // .catch((_) => {
+        //   res.status(200).send(
+        //     response({
+        //       msg: "Registration succesfull",
+        //     })
+        //   );
+        // })
 
-          .catch((_) => {
-            res.status(400).send(response(false, "Email failed to send"));
-          });
+        // .catch((_) => {
+        //   res.status(400).send(
+        //     response({
+        //       msg: "Email failed to send",
+        //     })
+        //   );
+        // });
       } else {
-        res.status(400).send(response(false, "Email already registered"));
+        res.status(400).send(
+          response({
+            msg: "Email already registered(dibawah try)",
+          })
+        );
       }
-    });
+    } catch (error) {
+      console.log(error);
+      res.status(400).send(
+        response({
+          msg: "Email already registered",
+        })
+      );
+      // res.status(400).send(
+      //   response({
+      //     msg: "Email already registered",
+      //   })
+      // );
+    }
+
+    // checkEmail.then((_result) => {
+    //   if (!_result) {
+    //     const data = {
+    //       email: email,
+    //       password: bcrypt.hashSync(password, salt),
+    //       pin_id: pin_id,
+    //     };
+    //     console.log("password register: ", password);
+
+    //     const createUser = authModel.createUser(data);
+    //     createUser
+    //       .then((_result) => {
+    //         res.status(200).send(
+    //           response({
+    //             status: true,
+    //             msg: "Registration successful",
+    //             data: {
+    //               userId: _result.insertId,
+    //               email: email,
+    //             },
+    //           })
+    //         );
+    //       })
+    //       .catch((_) => {
+    //         res.status(200).send(
+    //           response({
+    //             msg: "Registration succesfull",
+    //           })
+    //         );
+    //       })
+
+    //       .catch((_) => {
+    //         res.status(400).send(
+    //           response({
+    //             msg: "Email failed to send",
+    //           })
+    //         );
+    //       });
+    // } else {
+    //   res.status(400).send(
+    //     response({
+    //       msg: "Email already registered",
+    //     })
+    //   );
+    // }
   },
 };
