@@ -24,7 +24,7 @@ module.exports = {
   },
   deleteProfile: async (req, res) => {
     const {id} = req.params
-    const result = await profileModel.getProfile({ id: parseInt(id)})
+    const result = await profileModel.getUserById({ id: parseInt(id)})
 
     if (result.length < 1) {
       data = {
