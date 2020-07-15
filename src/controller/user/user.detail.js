@@ -1,10 +1,8 @@
 const profileModel = require('../../model/user/user.detail')
-const moment = require('moment')
 
 module.exports = {
   getProfile: async (req, res) => {
     const { id } = req.params
-    console.log(id)
     const result = await profileModel.getProfile({ id: parseInt(id)})
 
     if (result.length < 1) {
@@ -24,7 +22,7 @@ module.exports = {
   },
   deleteProfile: async (req, res) => {
     const {id} = req.params
-    const result = await profileModel.getUserById({ id: parseInt(id)})
+    const result = await profileModel.getProfile({ id: parseInt(id)})
 
     if (result.length < 1) {
       data = {
@@ -33,20 +31,57 @@ module.exports = {
       }
       res.status(400).send(data)
     } else {
-      const deleteProfile = await profileModel.updateUsers({ id: parseInt(id) })
+      const deleteProfile = await profileModel.deleteUsers({ id: parseInt(id) })
       if (deleteProfile) {
         const data = {
           success: true,
-          msg: 'user not actived',
+          msg: 'user deleted',
         }
         res.status(200).send(data)
       } else {
         const data = {
           success: false,
-          msg: 'not active user'
+          msg: 'delete failed'
         }
         res.status(500).send(data)
       }
     }
-  }
+  },
+  editProfile: async (req, res) => {
+    const { id } = req.params
+    const {fullname, phone, gender, birthdate} = req.body
+    const result = await profileModel.getProfile({ id: parseInt(id)})
+
+    if (result.length < 1) {
+      data = {
+        success: false,
+        msg: 'Profile not found'
+      }
+      res.status(400).send(data)
+    } else {
+      const editData = {
+            fullname,
+            phone,
+            gender,
+            birthdate,
+            id: parseInt(id)
+          }
+
+      const editProfile = await profileModel.editProfile(editData)
+      if (editProfile) {
+        data = {
+          success: true,
+          msg: 'Edit success',
+          data: editData
+        }
+        res.status(200).send(data)
+      } else {
+        data = {
+          success: false,
+          msg: 'Edit failed'
+        }
+        res.status(500).send(data)
+      }
+    }
+  },
 }

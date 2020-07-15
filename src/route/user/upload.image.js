@@ -3,6 +3,6 @@ const userController = require('../../controller/user/upload.image')
 const { uploadImage } = userController
 
 router
-	.post('/', uploadImage)
+	.patch('/:id', uploadImage)
 
 module.exports = router

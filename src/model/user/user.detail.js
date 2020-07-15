@@ -4,33 +4,40 @@ const table2 = "users"
 
 module.exports = {
 	getProfile: (data) => {
-	    let query = `SELECT ${table}.id, ${table}.user_id, ${table}.fullname,
-	    	${table}.phone, ${table}.gender, ${table}.birthdate, users.email FROM ${table} `
-	    query += 'INNER JOIN users ON user_details.user_id = users.id ' // Join Table Query
-	    query += `WHERE users.status LIKE '1%'`
+	    let query = `SELECT user_details.*, users.email FROM users `
+	    query += 'INNER JOIN user_details ON user_details.user_id = users.id ' // Join Table Query
 
 	    // If id not null
 	    if (data.id) {
-	      query += `WHERE ${table}.user_id LIKE '${data.id}%'`
+	      query += `WHERE users.id = '${data.id}%' AND users.deleted = 0`
+	    } else {
+	      query += `WHERE users.deleted = 0`
 	    }
 
 	    return new Promise((resolve, reject) => {
 	      db.query(query, (err, res) => err ? reject(Error(err)) : resolve(res))
 	    })
   	},
-  	getUserById: (data) => {
-	    const query = `SELECT * FROM ${table2} WHERE id = '${data.id}'`
-
-		return new Promise((resolve, reject) => {
-	      db.query(query, (err, res) => err ? reject(Error(err)) : resolve(res))
-	    })
-  	},
-  	updateUsers: (data) => {
+  	deleteUsers: (data) => {
   		// set status to false
-	    const query = `UPDATE ${table2} SET status = 0 WHERE id = '${data.id}'`
+	    const query = `UPDATE users SET deleted = 1 WHERE id = '${data.id}'`
 
 	    return new Promise((resolve, reject) => {
 	      db.query(query, (err, res) => err ? reject(Error(err)) : resolve(res.affectedRows))
 	    })
-  	}
+  	},
+  	editProfile: (data) => {
+  		// update user data in table user_details
+  		const { id, fullname, phone, gender, birthdate } = data
+	    const query = `UPDATE user_details 
+	    	SET fullname = '${fullname}',
+	    		phone = '${phone}',
+	    		gender = '${gender}',
+	    		birthdate = '${birthdate}'
+	    	WHERE user_id = '${id}'`
+
+	    return new Promise((resolve, reject) => {
+	      db.query(query, (err, res) => err ? reject(Error(err)) : resolve(res.affectedRows))
+	    })
+  	},
 }
