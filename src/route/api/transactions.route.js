@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const { getTransactionUser } = require('../../controller/transactions.controller')
+const transactionsController = require('../../controller/transactions.controller')
+const { getTransactionUser } = transactionsController
 
 // routes
 router.get('/user/:id', getTransactionUser)

@@ -4,7 +4,6 @@ const response = require('../helper/response')
 module.exports = {
   getTransactionUser: async (req, res) => {
     const { id } = req.params
-    console.log(id)
     const findUser = await transactionModel.findUser({ id: parseInt(id) })
     const transactionsData = await transactionModel.getTransactionsUser({ id: parseInt(id) })
 
