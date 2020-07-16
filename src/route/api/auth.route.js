@@ -1,6 +1,14 @@
 const router = require('express').Router()
 const { activate, pin, forgot, login, register, updatePin } = require('../../controller/auth.controller')
-const { _activate, _pin, _forgot, _login, _register, _updatePin, _authApi } = require('../../middleware/auth.middleware')
+const {
+  _activate,
+  _pin,
+  _forgot,
+  _login,
+  _register,
+  _updatePin,
+  _authApi
+} = require('../../middleware/auth.middleware')
 
 // routes
 router

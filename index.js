@@ -9,6 +9,7 @@ const response = require('./src/helper/response')
 // Import Routes
 const home = require('./src/route/index')
 const auth = require('./src/route/api/auth.route')
+const user = require('./src/route/api/user/user.route')
 
 // DEBUG MODE CHECK
 if (APP_DEBUG) {
@@ -44,6 +45,7 @@ app.use(bodyParser.urlencoded({
 // App Routes
 app.use('/', home)
 app.use('/auth', auth)
+app.use('/user', user)
 
 // Error Route
 app.get('*', (req, res) => {
