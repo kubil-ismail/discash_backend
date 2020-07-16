@@ -14,6 +14,28 @@ module.exports = {
   },
 
   // Find email from table
+  findEmail: (data) => {
+    const query = `SELECT email FROM ${table} WHERE ?`
+
+    return new Promise((resolve, reject) => {
+      db.query(query, data, (err, res) =>
+        err ? reject(Error(err)) : resolve(res.length)
+      )
+    })
+  },
+
+  // Find user from table
+  findAccount: (data) => {
+    const query = `SELECT * FROM ${table} WHERE ?`
+
+    return new Promise((resolve, reject) => {
+      db.query(query, data, (err, res) =>
+        err ? reject(Error(err)) : resolve(res[0])
+      )
+    })
+  },
+
+  // Find Code from table
   findCode: (data) => {
     const query = `DELETE FROM ${table2} WHERE email = '${data.email}' AND code = '${data.pin}' `
 
@@ -54,6 +76,17 @@ module.exports = {
       db.query(query, data, (err, res) => {
         err ? reject(Error(err)) : resolve(res)
       })
+    })
+  },
+
+  // Create new user
+  createUser: (data) => {
+    const query = `INSERT INTO ${table} SET ?`
+
+    return new Promise((resolve, reject) => {
+      db.query(query, data, (err, res) =>
+        err ? reject(Error(err)) : resolve(res)
+      )
     })
   }
 }
