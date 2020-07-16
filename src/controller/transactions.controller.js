@@ -10,12 +10,12 @@ module.exports = {
       if (findUser.length !== 0) {
         res.status(200).send(response({
           status: true,
-          msg: 'Success get profile',
+          msg: 'get detail transaction user',
           data: result
         }))
       } else {
         res.status(400).send(response({
-          msg: 'User not found'
+          msg: 'Not found transactions'
         }))
       }
     } catch (error) {
