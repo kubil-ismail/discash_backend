@@ -3,6 +3,7 @@ const table = 'transactions'
 const table2 = 'users'
 const table3 = 'payment_methods'
 const table4 = 'user_details'
+const table5 = 'transaction_types'
 
 module.exports = {
   findUser: (data) => {
@@ -17,6 +18,7 @@ module.exports = {
                     JOIN payment_methods ON payment_methods.id = transactions.payment_method_id
                     JOIN users ON users.id = transactions.user_id
                     JOIN user_details ON user_details.user_id = users.id
+                    JOIN transaction_types ON transaction_types.id = transactions.type_id
                     WHERE transactions.date LIKE '%${data.search || ''}%'
                     ORDER BY transactions.date ${parseInt(data.sort) ? 'DESC' : 'ASC'}`
     return new Promise((resolve, reject) => {
@@ -37,12 +39,13 @@ module.exports = {
                           transactions.name as name_transaction,
                           transactions.price,
                           transactions.qty,
-                          transactions.type,
+                          transaction_types.name as type,
                           transactions.status
                     FROM transactions
                     JOIN payment_methods ON payment_methods.id = transactions.payment_method_id
                     JOIN users ON users.id = transactions.user_id
                     JOIN user_details ON user_details.user_id = users.id
+                    JOIN transaction_types ON transaction_types.id = transactions.type_id
                     WHERE transactions.date LIKE '%${data.search || ''}%'
                     ORDER BY transactions.date ${parseInt(data.sort) ? 'DESC' : 'ASC'} LIMIT ${end} OFFSET ${start}`
     return new Promise((resolve, reject) => {
@@ -64,12 +67,13 @@ module.exports = {
                         transactions.name as name_transactions,
                         transactions.price,
                         transactions.qty,
-                        transactions.type,
+                        transaction_types.name as type,
                         transactions.status
                     FROM ${table}
                     JOIN ${table2} ON users.id = transactions.user_id
                     JOIN ${table3} ON payment_methods.id = transactions.payment_method_id
                     JOIN ${table4} ON user_details.user_id = users.id
+                    JOIN ${table5} ON transaction_types.id = transactions.type_id
                     WHERE transactions.user_id = ? AND transactions.deleted = 0`
 
     return new Promise((resolve, reject) => {

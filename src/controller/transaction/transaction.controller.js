@@ -17,7 +17,7 @@ module.exports = {
       const totalPage = Math.ceil(totalData / pagination.getPerPage(limit))
       const prevLink = pagination.getPrevLink(pagination.getPage(page), req.query)
       const nextLink = pagination.getNextLink(pagination.getPage(page), totalPage, req.query)
-      const result = await transactionModel.getAllTransactions(sliceStart, sliceEnd, condition)
+      const result = await transactionModel.getAllTransactions(sliceStart, sliceEnd, condition) // get all transactions
       if (result) {
         res.status(200).send(response({
           status: true,
