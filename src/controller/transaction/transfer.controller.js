@@ -1,9 +1,9 @@
-const topUpModel = require('../../model/transaction/topup.model')
+const transferModel = require('../../model/transaction/transfer.model')
 const response = require('../../helper/response')
 
 module.exports = {
   // Get user profile from db
-  topUp: async (req, res) => {
+  transferMoney: async (req, res) => {
     try {
       const { date, payment, userid, name, price } = req.body
       const dataSuccess = {
@@ -23,17 +23,17 @@ module.exports = {
         type_id: '2',
         status: '2'
       }
-      const findUser = await topUpModel.findUser({ id: parseInt(userid) })
+      const findUser = await transferModel.findUser({ id: parseInt(userid) })
       if (findUser) {
-        await topUpModel.topUp(dataSuccess)
+        await transferModel.transferMoney(dataSuccess)
         res.status(200).send(response({
           status: true,
-          msg: 'success top up'
+          msg: 'Transfer account success'
         }))
       } else {
-        await topUpModel.topUp(dataFailed)
+        await transferModel.transferMoney(dataFailed)
         res.status(400).send(response({
-          msg: 'No Found User for top up'
+          msg: 'No Found User for transfer'
         }))
       }
     } catch (error) {
