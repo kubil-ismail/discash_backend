@@ -9,11 +9,11 @@ router.get('/', (req, res) => {
   }))
 })
 
-// Error Route
+/* // Error Route
 router.get('*', (req, res) => {
   res.status(404).send(response({
     msg: 'Page not found'
   }))
-})
+}) */
 
 module.exports = router
