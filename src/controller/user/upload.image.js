@@ -7,10 +7,10 @@ const photo = upload.single('picture')
 module.exports = {
   uploadImage: async (req, res) => {
     const { id } = req.params
-    const checkUser = await profileModel.getProfile({ id: parseInt(id)})
+    const checkUser = await profileModel.getProfile({ id: parseInt(id) })
 
     if (checkUser.length < 1) { //  check is user exsist
-      data = {
+      const data = {
         success: false,
         msg: 'User not found'
       }
@@ -31,25 +31,25 @@ module.exports = {
           }
           res.status(400).send(data)
         } else {
-          if (!req.file ) { //  error handle no file selected
+          if (!req.file) { //  error handle no file selected
             const data = {
               success: false,
               msg: 'Please select image'
             }
             res.status(400).send(data)
           } else { // if filter image success
-            const uploadData = { picture: `picture/profile/${req.file.filename}` , id: parseInt(id) }
+            const uploadData = { picture: `picture/profile/${req.file.filename}`, id: parseInt(id) }
 
             const uploadImage = await imageModel.updateImage(uploadData)
             if (uploadImage) { // upload image success
-              data = {
+              const data = {
                 success: true,
                 msg: 'upload success',
                 data: uploadData
               }
               res.status(200).send(data)
             } else { // upload image failed
-              data = {
+              const data = {
                 success: false,
                 msg: 'upload failed'
               }
@@ -59,5 +59,5 @@ module.exports = {
         }
       })
     }
-  },
+  }
 }
