@@ -4,8 +4,18 @@ const table2 = "users"
 
 module.exports = {
 	getProfile: (data) => {
-	    let query = `SELECT user_details.*, users.email FROM users `
-	    query += 'INNER JOIN user_details ON user_details.user_id = users.id ' // Join Table Query
+	    let query = `
+	    	SELECT user_details.*, 
+	    		users.email,
+				users.status,
+		        roles.name as name_role,
+		        accounts.name as name_account,
+		        accounts.number as number_account,
+		        accounts.amounts as amounts_account	
+	    	FROM users `
+	    query += 'RIGHT JOIN user_details ON user_details.user_id = users.id ' // Join Table Query
+	    query += 'JOIN roles ON roles.id = users.role_id ' // Join Table Query
+	    query += 'JOIN accounts ON accounts.user_id = users.id ' // Join Table Query
 
 	    // If id not null
 	    if (data.id) {
