@@ -14,7 +14,7 @@ module.exports = {
         qty,
         type
       } = req.body
-      const data = {
+      const dataSuccess = {
         date,
         payment_method_id: payment,
         user_id: userid,
@@ -23,14 +23,25 @@ module.exports = {
         qty,
         type
       }
+      const dataFailed = {
+        date,
+        payment_method_id: payment,
+        user_id: userid,
+        name,
+        price,
+        qty,
+        type,
+        status: '2'
+      }
       const findUser = await topUpModel.findUser({ id: parseInt(userid) })
       if (findUser) {
-        await topUpModel.topUp(data)
+        await topUpModel.topUp(dataSuccess)
         res.status(200).send(response({
           status: true,
           msg: 'success top up'
         }))
       } else {
+        await topUpModel.topUp(dataFailed)
         res.status(400).send(response({
           msg: 'No Found User for top up'
         }))
