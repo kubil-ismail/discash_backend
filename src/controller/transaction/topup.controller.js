@@ -5,15 +5,7 @@ module.exports = {
   // Get user profile from db
   topUp: async (req, res) => {
     try {
-      const {
-        date,
-        payment,
-        userid,
-        name,
-        price,
-        qty,
-        type
-      } = req.body
+      const { date, payment, userid, name, price, qty, type } = req.body
       const dataSuccess = {
         date,
         payment_method_id: payment,
@@ -21,7 +13,7 @@ module.exports = {
         name,
         price,
         qty,
-        type
+        type_id: type
       }
       const dataFailed = {
         date,
@@ -30,7 +22,7 @@ module.exports = {
         name,
         price,
         qty,
-        type,
+        type_id: type,
         status: '2'
       }
       const findUser = await topUpModel.findUser({ id: parseInt(userid) })
