@@ -15,6 +15,7 @@ module.exports = {
     const query = `SELECT transactions.id, 
                         transactions.date, 
                         payment_methods.name,
+                        users.id as userid,
                         user_details.fullname,
                         transactions.name as name_transactions,
                         transactions.price,
