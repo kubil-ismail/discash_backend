@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 // Import Routes
 const home = require('./src/route/index')
 const auth = require('./src/route/api/auth.route')
+const transactions = require('./src/route/api/transactions.route')
 
 // DEBUG MODE CHECK
 if (APP_DEBUG) {
@@ -43,6 +44,7 @@ app.use(bodyParser.urlencoded({
 // App Routes
 app.use('/', home)
 app.use('/auth', auth)
+app.use('/transactions', transactions)
 
 // Run Server
 app.listen(APP_PORT || 8000, () => {
