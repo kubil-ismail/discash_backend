@@ -6,7 +6,7 @@ module.exports = {
     try {
       const { id } = req.params
       const findUser = await transactionModel.findUser({ id: parseInt(id) })
-      if (findUser.length > 0) {
+      if (findUser) {
         const result = await transactionModel.getTransactionsUser({ id: parseInt(id) })
         res.status(200).send(response({
           status: true,

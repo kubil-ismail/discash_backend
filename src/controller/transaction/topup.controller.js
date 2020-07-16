@@ -23,8 +23,8 @@ module.exports = {
         qty,
         type
       }
-      const findUser = await topUpModel.findUser({ id: parseInt(userid) || null })
-      if (findUser.length > 0) {
+      const findUser = await topUpModel.findUser({ id: parseInt(userid) })
+      if (findUser) {
         await topUpModel.topUp(data)
         res.status(200).send(response({
           status: true,
