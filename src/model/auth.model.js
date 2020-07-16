@@ -88,5 +88,16 @@ module.exports = {
         err ? reject(Error(err)) : resolve(res)
       )
     })
+  },
+
+  // Update pin user
+  updatePin: (data) => {
+    const query = `UPDATE ${table} SET pin = ${data.pin} WHERE id = ${data.userId}`
+
+    return new Promise((resolve, reject) => {
+      db.query(query, data, (err, res) =>
+        err ? reject(Error(err)) : resolve(res)
+      )
+    })
   }
 }
