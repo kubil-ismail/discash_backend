@@ -1,5 +1,5 @@
-const transactionModel = require('../model/transactions.models')
-const response = require('../helper/response')
+const transactionModel = require('../../model/transaction/transaction.model')
+const response = require('../../helper/response')
 
 module.exports = {
   getTransactionUser: async (req, res) => {

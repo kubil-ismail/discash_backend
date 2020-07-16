@@ -1,4 +1,4 @@
-const db = require('../util/database')
+const db = require('../../util/database')
 const table = 'transactions'
 const table2 = 'users'
 const table3 = 'payment_methods'

@@ -9,7 +9,8 @@ const response = require('./src/helper/response')
 // Import Routes
 const home = require('./src/route/index')
 const auth = require('./src/route/api/auth.route')
-const transactions = require('./src/route/api/transactions.route')
+const transactions = require('./src/route/api/transaction/transaction.route')
+const topup = require('./src/route/api/transaction/topup.route')
 const user = require('./src/route/api/user/user.route')
 
 // DEBUG MODE CHECK
@@ -47,6 +48,7 @@ app.use(bodyParser.urlencoded({
 app.use('/', home)
 app.use('/auth', auth)
 app.use('/transactions', transactions)
+app.use('/topup', topup)
 app.use('/user', user)
 
 // Error Route
