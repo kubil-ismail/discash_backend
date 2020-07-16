@@ -6,14 +6,12 @@ const table4 = 'user_details'
 
 module.exports = {
   findUser: (data) => {
-    console.log(data)
-    const query = `SELECT user_id FROM ${table} WHERE ?`
+    const query = `SELECT * FROM ${table} WHERE user_id = ?`
     return new Promise((resolve, reject) => {
-      db.query(query, data, (err, res) => err ? reject(Error(err)) : resolve(res.length))
+      db.query(query, data.id, (err, res) => err ? reject(Error(err)) : resolve(res.length))
     })
   },
   getTransactionsUser: (data) => {
-    console.log(data.id)
     const query = `SELECT transactions.id, 
                         transactions.date, 
                         payment_methods.name,

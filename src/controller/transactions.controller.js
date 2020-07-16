@@ -3,27 +3,25 @@ const response = require('../helper/response')
 
 module.exports = {
   getTransactionUser: async (req, res) => {
-    const { id } = req.params
-    const findUser = await transactionModel.findUser({ id: parseInt(id) })
-    const transactionsData = await transactionModel.getTransactionsUser({ id: parseInt(id) })
-
     try {
-      if (findUser.length > 0) {
-        transactionsData.then((result) => {
-          res.status(200).send(response(
-            true, 'Get detail transaction success', result
-
-          ))
-        })
+      const { id } = req.params
+      const findUser = await transactionModel.findUser({ id: parseInt(id) })
+      const result = await transactionModel.getTransactionsUser({ id: parseInt(id) })
+      if (findUser.length !== 0) {
+        res.status(200).send(response({
+          status: true,
+          msg: 'Success get profile',
+          data: result
+        }))
       } else {
-        res.status(400).send(response(
-          false, 'Not found detail transaction'
-        ))
+        res.status(400).send(response({
+          msg: 'User not found'
+        }))
       }
-    } catch {
-      res.status(400).send(response(
-        false, 'Failed get detail transactions'
-      ))
+    } catch (error) {
+      res.status(400).send(response({
+        msg: 'Something wrong, Try again'
+      }))
     }
   }
 }
