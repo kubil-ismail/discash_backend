@@ -13,6 +13,7 @@ const transactions = require('./src/route/api/transaction/transaction.route')
 const topup = require('./src/route/api/transaction/topup.route')
 const user = require('./src/route/api/user/user.route')
 const transfer = require('./src/route/api/transaction/transfer.route')
+const pay = require('./src/route/api/transaction/pay.route')
 
 // DEBUG MODE CHECK
 if (APP_DEBUG) {
@@ -52,6 +53,7 @@ app.use('/transactions', transactions)
 app.use('/topup', topup)
 app.use('/user', user)
 app.use('/transfer', transfer)
+app.use('/pay', pay)
 
 // Error Route
 app.get('*', (req, res) => {
