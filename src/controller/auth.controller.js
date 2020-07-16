@@ -87,7 +87,6 @@ module.exports = {
         }))
       }
     } catch (error) {
-      console.log(error)
       res.status(400).send(response({
         msg: 'Something wrong, Try again'
       }))
@@ -160,6 +159,35 @@ module.exports = {
           status: true,
           msg: 'Please check your email'
         }))
+      }
+    } catch (error) {
+      res.status(400).send(response({
+        msg: 'Something wrong, Try again'
+      }))
+    }
+  },
+
+  // Update pin user
+  updatePin: async (req, res) => {
+    try {
+      const { userId, pin, newPin } = req.body
+      const check = await auth.findPin({ userId: userId, pin: pin })
+      if (check.length === 0) {
+        res.status(400).send(response({
+          msg: 'Invalid Pin'
+        }))
+      } else {
+        const update = await auth.updatePin({ userId: userId, pin: newPin })
+        if (update.affectedRows) {
+          res.status(400).send(response({
+            msg: 'Update pin success',
+            data: req.body
+          }))
+        } else {
+          res.status(400).send(response({
+            msg: 'Something wrong, Try again'
+          }))
+        }
       }
     } catch (error) {
       res.status(400).send(response({
