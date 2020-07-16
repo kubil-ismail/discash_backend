@@ -38,7 +38,7 @@ module.exports = {
             }
             res.status(400).send(data)
           } else { // if filter image success
-            const uploadData = { picture: req.file.filename , id: parseInt(id) }
+            const uploadData = { picture: `picture/profile/${req.file.filename}` , id: parseInt(id) }
 
             const uploadImage = await imageModel.updateImage(uploadData)
             if (uploadImage) { // upload image success

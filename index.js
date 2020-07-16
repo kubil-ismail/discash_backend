@@ -13,7 +13,7 @@ const user = require('./src/route/user/user.detail')
 app.use(cors('*'))
 
 // static link to get image
-app.use('/img', express.static('public/assets/image'))
+app.use('/picture/profile', express.static('public/assets/image'))
 
 // Setting up bodyParser to use json and set it to req.body
 app.use(bodyParser.json())
