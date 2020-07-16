@@ -24,15 +24,15 @@ module.exports = {
         type
       }
       const findUser = await topUpModel.findUser({ id: parseInt(userid) || null })
-      if (findUser.length !== 0) {
+      if (findUser.length > 0) {
         await topUpModel.topUp(data)
         res.status(200).send(response({
           status: true,
-          msg: 'success top up',
+          msg: 'success top up'
         }))
       } else {
         res.status(400).send(response({
-          msg: 'User not found'
+          msg: 'No Found User for top up'
         }))
       }
     } catch (error) {
