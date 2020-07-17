@@ -5,26 +5,23 @@ module.exports = {
   // Get user profile from db
   transferMoney: async (req, res) => {
     try {
-      const { date, payment, userid, account_number, name, price } = req.body
+      const { payment, userid, account_number, price } = req.query
       const dataSuccess = {
-        date,
         payment_method_id: payment,
         user_id: userid,
-        name,
         price,
         account_number,
         type_id: '2'
       }
       const dataFailed = {
-        date,
         payment_method_id: payment,
         user_id: userid,
-        name,
         price,
         account_number,
         type_id: '2',
         status: '2'
       }
+      console.log(dataSuccess)
       const findUser = await transferModel.findUser({ id: parseInt(userid) })
       if (findUser) {
         await transferModel.transferMoney(dataSuccess)
