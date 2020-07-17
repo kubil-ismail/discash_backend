@@ -2,25 +2,21 @@ const topUpModel = require('../../model/transaction/topup.model')
 const response = require('../../helper/response')
 
 module.exports = {
-  // Get user profile from db
+  // Get para
   topUp: async (req, res) => {
     try {
-      const { date, payment, userid, name, price } = req.body
+      const {payment, userid, price } = req.query
       const dataSuccess = {
-        date,
         payment_method_id: payment,
         user_id: userid,
-        name,
         price,
-        type_id: '2'
+        type_id: '1'
       }
       const dataFailed = {
-        date,
         payment_method_id: payment,
         user_id: userid,
-        name,
         price,
-        type_id: '2',
+        type_id: '1',
         status: '2'
       }
       const findUser = await topUpModel.findUser({ id: parseInt(userid) })
