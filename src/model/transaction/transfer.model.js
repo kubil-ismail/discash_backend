@@ -8,7 +8,7 @@ const table5 = 'transaction_types'
 
 module.exports = {
   findUser: (data) => {
-    const query = `SELECT * FROM ${table2} WHERE user_id = ? AND status = 1 AND deleted = 0`
+    const query = `SELECT * FROM ${table2} WHERE nmbr = ? AND status = 1 AND deleted = 0` //ubah to number_account
     return new Promise((resolve, reject) => {
       db.query(query, data.id, (err, res) => err ? reject(Error(err)) : resolve(res))
     })

@@ -5,9 +5,8 @@ module.exports = {
   // Get user profile from db
   pay: async (req, res) => {
     try {
-      const { date, payment, userid, name, price } = req.body
+      const { payment, userid, name, price } = req.body
       const dataSuccess = {
-        date,
         payment_method_id: payment,
         user_id: userid,
         name,
@@ -15,7 +14,6 @@ module.exports = {
         type_id: '3'
       }
       const dataFailed = {
-        date,
         payment_method_id: payment,
         user_id: userid,
         name,
@@ -24,7 +22,7 @@ module.exports = {
         status: '2'
       }
       const findUser = await payModel.findUser({ id: parseInt(userid) })
-      if (findUser && findUser[0].amounts >= price) {
+      if (findUser.length && findUser[0].amounts >= price) {
         await payModel.pay(dataSuccess)
         res.status(200).send(response({
           status: true,
