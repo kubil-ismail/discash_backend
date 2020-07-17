@@ -3,6 +3,31 @@ const response = require('../../helper/response')
 
 module.exports = {
   // Get user profile from db
+  getTransferUserHistory: async (req, res) => {
+    try {
+      const { id } = req.params
+      const findUser = await transferModel.findUser({ id: parseInt(id) })
+      if (findUser) {
+        const result = await transferModel.getTransferUserHistory({ id: parseInt(id) })
+        res.status(200).send(response({
+          status: true,
+          msg: 'Get history transfer',
+          data: result
+        }))
+      } else {
+        res.status(400).send(response({
+          status: false,
+          msg: 'Not found transfer history'
+        }))
+      }
+    } catch (error) {
+      res.status(400).send(response({
+        status: false,
+        msg: 'Something wrong, Try again'
+      }))
+    }
+  },
+
   transferMoney: async (req, res) => {
     try {
       const { payment, userid, account_number, price } = req.query
