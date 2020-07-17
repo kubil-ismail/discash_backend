@@ -46,9 +46,8 @@ module.exports = {
         type_id: '2',
         status: '2'
       }
-      console.log(dataSuccess)
       const findUser = await transferModel.findUser({ id: parseInt(userid) })
-      if (findUser) {
+      if (findUser && findUser[0].amounts >= price) {
         await transferModel.transferMoney(dataSuccess)
         res.status(200).send(response({
           status: true,
@@ -57,7 +56,7 @@ module.exports = {
       } else {
         await transferModel.transferMoney(dataFailed)
         res.status(400).send(response({
-          msg: 'No Found User for transfer'
+          msg: 'Failed transfer'
         }))
       }
     } catch (error) {

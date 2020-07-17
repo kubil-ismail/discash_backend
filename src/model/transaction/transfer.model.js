@@ -10,7 +10,7 @@ module.exports = {
   findUser: (data) => {
     const query = `SELECT * FROM ${table2} WHERE user_id = ? AND status = 1 AND deleted = 0`
     return new Promise((resolve, reject) => {
-      db.query(query, data.id, (err, res) => err ? reject(Error(err)) : resolve(res.length))
+      db.query(query, data.id, (err, res) => err ? reject(Error(err)) : resolve(res))
     })
   },
   getTransferUserHistory: (data) => {
