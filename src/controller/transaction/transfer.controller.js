@@ -5,13 +5,14 @@ module.exports = {
   // Get user profile from db
   transferMoney: async (req, res) => {
     try {
-      const { date, payment, userid, name, price } = req.body
+      const { date, payment, userid, account_number, name, price } = req.body
       const dataSuccess = {
         date,
         payment_method_id: payment,
         user_id: userid,
         name,
         price,
+        account_number,
         type_id: '2'
       }
       const dataFailed = {
@@ -20,6 +21,7 @@ module.exports = {
         user_id: userid,
         name,
         price,
+        account_number,
         type_id: '2',
         status: '2'
       }
