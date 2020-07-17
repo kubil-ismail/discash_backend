@@ -24,6 +24,7 @@ module.exports = {
         await topUpModel.topUp(dataSuccess)
         res.status(200).send(response({
           status: true,
+          data: dataSuccess,
           msg: 'success top up'
         }))
       } else {
