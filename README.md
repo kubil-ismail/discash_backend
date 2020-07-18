@@ -1,5 +1,5 @@
 # Discash backend
-Kuma Backend is an Discash API. It's built on the Node Js, uses Mysql & Express.
+Discash backend is an Discash API. It's built on the Node Js, uses Mysql & Express.
 ## Instalation
 just clone this repo
 ```
