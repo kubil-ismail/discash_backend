@@ -1,36 +1,39 @@
-const topUpModel = require('../../model/transaction/topup.model')
+const payModel = require('../../model/transaction/pay.model')
 const response = require('../../helper/response')
 
 module.exports = {
-  // Get para
-  topUp: async (req, res) => {
+  // Get user profile from db
+  pay: async (req, res) => {
     try {
-      const {payment, userid, price } = req.query
+      const { date, payment, userid, name, price } = req.body
       const dataSuccess = {
+        date,
         payment_method_id: payment,
         user_id: userid,
+        name,
         price,
-        type_id: '1'
+        type_id: '3'
       }
       const dataFailed = {
+        date,
         payment_method_id: payment,
         user_id: userid,
+        name,
         price,
-        type_id: '1',
+        type_id: '3',
         status: '2'
       }
-      const findUser = await topUpModel.findUser({ id: parseInt(userid) })
+      const findUser = await payModel.findUser({ id: parseInt(userid) })
       if (findUser) {
-        await topUpModel.topUp(dataSuccess)
+        await payModel.pay(dataSuccess)
         res.status(200).send(response({
           status: true,
-          data: dataSuccess,
-          msg: 'success top up'
+          msg: 'Pay success'
         }))
       } else {
-        await topUpModel.topUp(dataFailed)
+        await payModel.pay(dataFailed)
         res.status(400).send(response({
-          msg: 'No Found User for top up'
+          msg: 'Pay failed'
         }))
       }
     } catch (error) {
