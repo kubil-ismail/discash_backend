@@ -16,13 +16,11 @@ module.exports = {
         }))
       } else {
         res.status(400).send(response({
-          status: false,
           msg: 'Not found transfer history'
         }))
       }
     } catch (error) {
       res.status(400).send(response({
-        status: false,
         msg: 'Something wrong, Try again'
       }))
     }
@@ -46,13 +44,13 @@ module.exports = {
         type_id: '2',
         status: '2'
       }
-      console.log(dataSuccess)
       const findUser = await transferModel.findUser({ id: parseInt(userid) })
       if (findUser) {
         await transferModel.transferMoney(dataSuccess)
         res.status(200).send(response({
           status: true,
-          msg: 'Transfer account success'
+          msg: 'Transfer account success',
+          data: dataFailed
         }))
       } else {
         await transferModel.transferMoney(dataFailed)
