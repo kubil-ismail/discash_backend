@@ -69,3 +69,4 @@ nodemon
 * **GET** User history transaction endpoint path: /transactions/user/{id}
 * **GET** User history transfer endpoint path: /transfer/user/{id}
 ## License
+[MIT](https://choosealicense.com/licenses/mit/)
