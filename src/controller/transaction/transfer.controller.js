@@ -28,9 +28,10 @@ module.exports = {
 
   transferMoney: async (req, res) => {
     try {
-      const { payment, userid, account_number, price } = req.query
+      const { payment, name, userid, account_number, price } = req.query
       const dataSuccess = {
         payment_method_id: payment,
+        name,
         user_id: userid,
         price,
         account_number,
@@ -38,6 +39,7 @@ module.exports = {
       }
       const dataFailed = {
         payment_method_id: payment,
+        name,
         user_id: userid,
         price,
         account_number,

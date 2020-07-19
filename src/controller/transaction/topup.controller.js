@@ -5,7 +5,7 @@ module.exports = {
   // Get para
   topUp: async (req, res) => {
     try {
-      const {payment, userid, price } = req.query
+      const { payment, userid, price } = req.query
       const dataSuccess = {
         payment_method_id: payment,
         user_id: userid,

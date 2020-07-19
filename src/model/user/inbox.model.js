@@ -4,7 +4,7 @@ const table1 = 'users'
 
 module.exports = {
   findUser: (data) => {
-    const query = `SELECT * FROM users WHERE id = ? AND status = 1`
+    const query = 'SELECT * FROM users WHERE id = ? AND status = 1'
     return new Promise((resolve, reject) => {
       db.query(query, data.id, (err, res) => err ? reject(Error(err)) : resolve(res.length))
     })
@@ -25,5 +25,5 @@ module.exports = {
         db.query(query, (err, res) => err ? reject(Error(err)) : resolve(res))
       }
     })
-  },
+  }
 }
