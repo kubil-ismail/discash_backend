@@ -19,6 +19,7 @@ module.exports = {
           // Check password
           const checkPassword = bcrypt.compareSync(password, check.password)
           if (checkPassword) {
+            await auth.insertLogs({ user_id: check.id, user_email: email })
             jwt.sign({ check }, APP_KEY, (err, token) => {
               if (!err) {
                 res.status(200).send(response({

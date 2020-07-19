@@ -2,6 +2,7 @@ const db = require('../util/database')
 const table = 'users' // Main Table
 const table2 = 'user_activates' // user_activates
 const table3 = 'user_forgotes' // user_forgotes
+const table4 = 'logs' // logs
 
 module.exports = {
   // Activate Account
@@ -93,6 +94,18 @@ module.exports = {
   // Update pin user
   updatePin: (data) => {
     const query = `UPDATE ${table} SET pin = ${data.pin} WHERE id = ${data.userId}`
+
+    return new Promise((resolve, reject) => {
+      db.query(query, data, (err, res) =>
+        err ? reject(Error(err)) : resolve(res)
+      )
+    })
+  },
+
+  // insert logs
+  insertLogs: (data) => {
+    console.log(data)
+    const query = `INSERT INTO ${table4} SET ?`
 
     return new Promise((resolve, reject) => {
       db.query(query, data, (err, res) =>
