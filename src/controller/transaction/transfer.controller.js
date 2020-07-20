@@ -46,7 +46,7 @@ module.exports = {
         type_id: '2',
         status: '2'
       }
-      const findUser = await transferModel.findUser({ id: parseInt(userid) })
+      const findUser = await transferModel.findUser({ id: parseInt(account_number) })
       if (findUser.length && findUser[0].amounts >= price) {
         await transferModel.transferMoney(dataSuccess)
         res.status(200).send(response({
