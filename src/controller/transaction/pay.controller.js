@@ -24,7 +24,7 @@ module.exports = {
         status: '2'
       }
       const findUser = await payModel.findUser({ id: parseInt(userid) })
-      if (findUser) {
+      if (findUser.length && findUser[0].amounts >= price) {
         await payModel.pay(dataSuccess)
         res.status(200).send(response({
           status: true,
