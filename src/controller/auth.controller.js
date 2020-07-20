@@ -73,7 +73,7 @@ module.exports = {
         }
         const createUser = await auth.createUser(data)
         if (createUser.affectedRows) {
-          await verifyEmail({ email: email, code: code })
+         // await verifyEmail({ email: email, code: code })
           res.status(200).send(response({
             msg: 'Registration successful'
           }))
